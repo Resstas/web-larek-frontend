@@ -40,3 +40,54 @@ npm run build
 ```
 yarn build
 ```
+## Типы данных 
+Интерфейс для данных продукта, приходящих с API:
+
+```
+export interface Product {
+  id: string;
+  description: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number;
+}
+```
+Интерфейс для данных заказа, отправляемых на сервер:
+
+```
+export interface Order {
+  payment: string;
+  email: string;
+  phone: string;
+  address: string;
+  total: number;
+  items: string[];
+}
+```
+## Интерфейсы отображений
+Интерфейс для отображения продукта:
+
+```
+export interface ProductData {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  image: string;
+  price: string;
+}
+```
+Интерфейс для отображения заказа:
+
+```
+export interface OrderData {
+  id: string;
+  items: ProductData[];
+  price: string;
+  payment: string;
+  address: string;
+  email: string;
+  phone: string;
+}
+```
