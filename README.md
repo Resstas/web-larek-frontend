@@ -97,7 +97,7 @@ export interface OrderData {
 Его функции: взаимодействие с API для получения и удаления продуктов.  
 
 Атрибуты:
-  id: string - Id продукта.
+  id: string - Id продукта.br
   description: string - Описание продукта.
   image: string - Изображение продукта.
   title: string - Название продукта.
