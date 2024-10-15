@@ -91,3 +91,65 @@ export interface OrderData {
   phone: string;
 }
 ```
+
+## Классы
+Класс ProductApi используется для управления данными о продуктах. 
+Его функции: взаимодействие с API для получения и удаления продуктов.  
+
+Атрибуты:
+  id: string - Id продукта.
+  description: string - Описание продукта.
+  image: string - Изображение продукта.
+  title: string - Название продукта.
+  category: string - Категория продукта.
+  price: number - Цена продукта.
+Метод:
+  getProduct: () => Promise<Product[]>; - Возвращает список продуктов
+  
+Класс Order используется для управления данными о заказе.
+Его функции: Создание заказов.
+
+Атрибуты:
+  payment: string - Способ оплаты.
+  email: string - Email покупателя.
+  phone: string - Телефон покупателя.
+  address: string - Адрес покупателя.
+  total: number - Сумма заказа.
+  items: string[] - Массив продуктов.
+Метод:
+  order: (order: Order) => Promise<Order[]>; - Создаёт новый заказ.
+  
+Класс ProductData используется для отоброжения продуктов.
+Функции: выводит список продуктов на экран.
+
+Атрибуты:
+  id: string; - Id продукта.
+  title: string; - Описание продукта.
+  description: string; - Изображение продукта.
+  category: string; - Название продукта.
+  image: string; - Категория продукта.
+  price: string; - Цена продукта.
+Метод:
+  viewProduct: () => Promise<ProductData[]>; Выводит список продуктов.
+
+Класс OrderData используется для отоброжения интерфейса заказа.
+Функции: отоброжения интерфейса корзины и заказа.
+
+Атрибуты: 
+  id: string; - Id продукта.
+  items: ProductData[]; - массив продуктов.
+  price: string; - Сумма заказа.
+  payment: string; - Способ оплаты.
+  address: string; - Адрес покупателя.
+  email: string; - Email покупателя.
+  phone: string; - Телефон покупателя.
+Метод:
+  viewOrder: (order: Order) => Promise<OrderData[]>;
+  
+## Связи
+
+Класс ProductApi вазимодействует с классом ProductData, предоставляя данные о продуктах с API. 
+ProductData использует полученные данные, чтобы отобразить продукты в интрефейсе.
+
+Класс Order взаимодействует с классом OrderData для получения информации о заказе. OrderData использует получанные данные, чтобы отобразить их.
+
