@@ -93,7 +93,7 @@ export interface OrderData {
 ```
 
 ## Классы
-Класс ProductApi используется для управления данными о продуктах.<br>
+Класс ProductModel используется для управления данными о продуктах.<br>
 Его функции: взаимодействие с API для получения и удаления продуктов.  
 
 Атрибуты:
@@ -107,10 +107,10 @@ export interface OrderData {
 ```
 Метод:
 ```
-  getProduct: () => Promise<Product[]>; - Возвращает список продуктов
+  getProductData: () => Promise<ProductModel[]>; - Возвращает список продуктов
 ```
   
-Класс Order используется для управления данными о заказе.<br>
+Класс OrderModel используется для управления данными о заказе.<br>
 Его функции: Создание заказов.
 
 Атрибуты:
@@ -124,10 +124,10 @@ export interface OrderData {
 ```
 Метод:
 ```
-  order: (order: Order) => Promise<Order[]>; - Создаёт новый заказ.
+  getOrderData: (order: Order) => Promise<OrderModel[]>; - Создаёт новый заказ.
 ```
   
-Класс ProductData используется для отоброжения продуктов.<br>
+Класс ProductView используется для отоброжения продуктов.<br>
 Функции: выводит список продуктов на экран.
 
 Атрибуты:
@@ -141,31 +141,71 @@ export interface OrderData {
 ```
 Метод:
 ```
-  viewProduct: () => Promise<ProductData[]>; Выводит список продуктов.
+  renderProducts: (products: ProductModel[]) => void; - Выводит список продуктов.
 ```
 
-Класс OrderData используется для отоброжения интерфейса заказа.<br>
+Класс OrderView используется для отоброжения интерфейса заказа.<br>
 Функции: отоброжения интерфейса корзины и заказа.
 
 Атрибуты:
 ```
   id: string; - Id продукта.
   items: ProductData[]; - массив продуктов.
-  price: string; - Сумма заказа.
-  payment: string; - Способ оплаты.
-  address: string; - Адрес покупателя.
-  email: string; - Email покупателя.
-  phone: string; - Телефон покупателя.
+  price: HTMLElement; - Сумма заказа.
+  payment: HTMLButtonElement; - Способ оплаты.
+  address: HTMLInputElement; - Адрес покупателя.
+  email: HTMLInputElement; - Email покупателя.
+  phone: HTMLInputElement; - Телефон покупателя.
 ```
 Метод:
 ```
-  viewOrder: (order: Order) => Promise<OrderData[]>;
+  renderOrder: (order: OrderModel) => void;
 ```
-  
+Класс BasketModel используется для добавления, удаления и очистки корзины
+
+Атрибуты:
+```
+  items: ProductModel[]; - Массив продуктов, которые пользователь добавил в корзину
+  total: number; - Общая сумма продуктов в корзине
+```
+Методы:
+```
+  addItem: (product: ProductModel) => void; - Добавляет продукт в корзину.
+  removeItem: (ptoductId: string) => void; - Удаляет продукт из корзины по Id
+  getTotal: () => number; - Сумма всех продуктов
+```
+
+Класс ProductPresenter управляет взаимодействием между моделью продуктов, корзиной и отображением
+
+Атрибуты:
+```
+  productModel: ProductModel[]; - Массив данных о продуктах.
+  productView: ProductView; - отображения продуктов.
+  basketModel: BasketModel; - Модель корзины хранящая текущие товары в корзине и управляющая ей.
+```
+Методы
+```
+  fetchProducts: () => Promise<void>; - Получает список продуктов с API и передает их для отображения.
+  addToBasket; (productId: string) => void; - Добавляет выбранный продукт в корзину, используя BasketModel.
+  removeFromBasket: (productId: string) => void; - Удаляет продукт из корзины по Id.
+```
+
+Класс OrderPresenter управляет логикой оформления заказа
+
+Атрибуты: 
+```
+  orderModel: OrderModel; - Модель для хранения данных о заказе.
+  orderView: OrderView; - Представление для отображения информации о заказе.
+  basketModel: BasketModel; - Модель корзины для получения продуктов, добавленныч в заказ.
+```
+Методы: 
+```
+  submitOrder: () => Promise<void>;
+```
 ## Связи
 
-Класс ProductApi вазимодействует с классом ProductData, предоставляя данные о продуктах с API.<br>
-ProductData использует полученные данные, чтобы отобразить продукты в интрефейсе.
-
-Класс Order взаимодействует с классом OrderData для получения информации о заказе. OrderData использует получанные данные, чтобы отобразить их.
-
+Класс ProductModel хранит данные о прдуктах, полученные с API, и передаёт их в класс ProductPresenter.<br>
+Класс ProductView отображает продукты, полученные из класса ProductPresenter.<br>
+BasketModel взаимодействует с классом ProductController, который вызывает методы для изменения содержимого корзины и затем обновляет представление через ProductView.<br>
+Класс OrderPresenter взаимодействует с классом BasketModel для получения списка продуктов и прередаёт их в класс OrderModel.<br>
+Класс OrderView полдучает данные от класса OrderPresenter и отображает данные о заказе.<br>
